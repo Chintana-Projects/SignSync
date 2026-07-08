@@ -1,0 +1,16 @@
+[
+    {
+        "session_id": "05d08794-bcaf-4e54-beea-6b97a658f65f",
+        "lesson_id": 3,
+        "start_time": "2026-07-08T21:58:20.364226",
+        "end_time": null,
+        "attempts": 0
+    },
+    {
+        "session_id": "b535ea43-7054-4069-9a27-0a1e43dab243",
+        "lesson_id": 3,
+        "start_time": "2026-07-08T21:58:21.999564",
+        "end_time": null,
+        "attempts": 0
+    }
+]

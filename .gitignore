@@ -1,39 +1,60 @@
-# -----------------------------
+# ----------------------------
 # Python
-# -----------------------------
+# ----------------------------
+venv/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.python-version
 
-# Virtual Environment
-venv/
-.venv/
-env/
-ENV/
+# ----------------------------
+# Environment Variables
+# ----------------------------
+.env
 
-# Dataset (raw images only)
-datasets/
-
+# ----------------------------
 # VS Code
+# ----------------------------
 .vscode/
 
+# ----------------------------
 # Logs
+# ----------------------------
 *.log
 
-# Environment Variables
-.env
-.env.*
-
-# OS Files
+# ----------------------------
+# Operating System
+# ----------------------------
 .DS_Store
 Thumbs.db
 
-# Python Cache
-.pytest_cache/
-.mypy_cache/
+# ----------------------------
+# Large AI Datasets
+# ----------------------------
+datasets/
+ASL_Alphabet_Dataset/
+WLASL/
 
+# ----------------------------
+# Generated Files
+# ----------------------------
+generated/
+captures/
+
+# ----------------------------
+# Jupyter
+# ----------------------------
+.ipynb_checkpoints/
+
+# ----------------------------
+# Pytest
+# ----------------------------
+.pytest_cache/
+
+# ----------------------------
 # Build Files
+# ----------------------------
 build/
 dist/
 *.egg-info/
