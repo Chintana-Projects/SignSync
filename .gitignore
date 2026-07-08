@@ -1,14 +1,39 @@
-venv/
+# -----------------------------
+# Python
+# -----------------------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Dataset
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Dataset (raw images only)
 datasets/
 
+# VS Code
 .vscode/
 
+# Logs
 *.log
 
+# Environment Variables
+.env
+.env.*
+
+# OS Files
 .DS_Store
+Thumbs.db
+
+# Python Cache
+.pytest_cache/
+.mypy_cache/
+
+# Build Files
+build/
+dist/
+*.egg-info/

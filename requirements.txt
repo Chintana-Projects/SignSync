@@ -2,3 +2,5 @@ opencv-python
 mediapipe
 numpy
 pandas
+fastapi
+uvicorn
