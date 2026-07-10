@@ -1,0 +1,7 @@
+{
+    "total_images_processed": 152072,
+    "successful_landmark_detections": 152072,
+    "failed_landmark_detections": 0,
+    "corrupted_images": 0,
+    "success_percentage": 100.0
+}

@@ -1,47 +1,45 @@
 """
 extract_landmarks.py
 
-Main script for creating a landmark dataset.
+Landmark Extraction Pipeline
 
 Responsibilities
 ----------------
 1. Traverse every image in the ASL dataset.
 2. Detect hands using MediaPipe.
 3. Extract all 21 landmarks.
-4. (Optional) Normalize landmarks.
-5. Flatten landmarks into 63 features.
-6. Append the class label.
-7. Save everything into a CSV file.
-8. Skip invalid samples.
-9. Generate statistics and reports.
+4. Optionally normalize landmarks.
+5. Flatten landmarks into 63 numerical values.
+6. Return extracted samples.
+
+Note:
+This module DOES NOT:
+- Write CSV files
+- Generate reports
+- Validate datasets
+
+Those responsibilities belong to:
+- dataset_builder.py
+- validator.py
 """
 
 import os
 import cv2
 import mediapipe as mp
 
-from csv_writer import CSVWriter
-from statistics import DatasetStatistics
-from report_generator import ReportGenerator
-from data_normalizer import DataNormalizer
+from app.ai.dataset.data_normalizer import DataNormalizer
 
-
-class LandmarkDatasetExtractor:
+class LandmarkExtractor:
+    """
+    Extracts hand landmarks from an ASL dataset.
+    """
 
     def __init__(
         self,
         dataset_path,
-        output_csv="generated/landmark_dataset.csv",
         normalize=True
     ):
-
         self.dataset_path = dataset_path
-
-        self.writer = CSVWriter(output_csv)
-
-        self.statistics = DatasetStatistics()
-
-        self.report_generator = ReportGenerator()
 
         self.normalize = normalize
 
@@ -54,20 +52,20 @@ class LandmarkDatasetExtractor:
         self.mp_hands = mp.solutions.hands
 
         self.hands = self.mp_hands.Hands(
-
             static_image_mode=True,
-
             max_num_hands=1,
-
             min_detection_confidence=0.5
-
         )
 
-    def extract_dataset(self):
+    def extract(self):
+        """
+        Traverse the dataset and extract landmarks.
 
-        print("\n===============================")
-        print("LANDMARK EXTRACTION STARTED")
-        print("===============================\n")
+        Returns:
+            list[dict]
+        """
+
+        dataset = []
 
         class_folders = sorted(os.listdir(self.dataset_path))
 
@@ -92,14 +90,9 @@ class LandmarkDatasetExtractor:
                     image_name
                 )
 
-                self.statistics.image_processed()
-
                 image = cv2.imread(image_path)
 
                 if image is None:
-
-                    self.statistics.failed_detection(image_path)
-
                     continue
 
                 rgb = cv2.cvtColor(
@@ -110,9 +103,6 @@ class LandmarkDatasetExtractor:
                 results = self.hands.process(rgb)
 
                 if not results.multi_hand_landmarks:
-
-                    self.statistics.failed_detection(image_path)
-
                     continue
 
                 hand = results.multi_hand_landmarks[0]
@@ -122,18 +112,14 @@ class LandmarkDatasetExtractor:
                 for landmark in hand.landmark:
 
                     landmarks.append({
-
                         "x": round(landmark.x, 6),
-
                         "y": round(landmark.y, 6),
-
                         "z": round(landmark.z, 6)
-
                     })
 
-                # --------------------------
+                # -----------------------------
                 # Optional Normalization
-                # --------------------------
+                # -----------------------------
 
                 if self.normalize:
 
@@ -141,68 +127,57 @@ class LandmarkDatasetExtractor:
                         landmarks
                     )
 
-                # --------------------------
-                # Save CSV Row
-                # --------------------------
+                # -----------------------------
+                # Flatten into 63 values
+                # -----------------------------
 
-                self.writer.write_sample(
+                features = []
 
-                    landmarks,
+                for landmark in landmarks:
 
-                    class_name
+                    features.extend([
+                        landmark["x"],
+                        landmark["y"],
+                        landmark["z"]
+                    ])
 
-                )
+                dataset.append({
 
-                self.statistics.successful_detection(
-                    class_name
-                )
-                        # -----------------------------
-        # Finished Processing Dataset
-        # -----------------------------
+                    "label": class_name,
+
+                    "features": features,
+
+                    "image": image_path
+
+                })
 
         self.hands.close()
 
-        print("\n")
-        self.statistics.print_summary()
-
-        self.report_generator.generate_json_report(
-            self.statistics
-        )
-
-        self.report_generator.save_skipped_images(
-            self.statistics
-        )
-
-        print("\n")
-        print("=" * 60)
-        print("LANDMARK DATASET CREATED SUCCESSFULLY")
-        print("=" * 60)
-
-        print(f"CSV File : {self.writer.get_output_path()}")
-
-        print("Reports  : generated/")
-        print("=" * 60)
+        return dataset
 
 
 def main():
 
-    # -------------------------------------------------
-    # CHANGE THIS PATH TO YOUR ASL DATASET LOCATION
-    # -------------------------------------------------
+    dataset_path = (
+        r"C:\Users\DEll\.vscode\Sign\datasets"
+        r"\ASL_Alphabet_Dataset\asl_alphabet_train"
+    )
 
-    dataset_path = r"C:\Users\DEll\.vscode\Sign\datasets\ASL_Alphabet_Dataset\asl_alphabet_train"
-
-    extractor = LandmarkDatasetExtractor(
+    extractor = LandmarkExtractor(
 
         dataset_path=dataset_path,
-
-        output_csv="generated/landmark_dataset.csv",
 
         normalize=True
 
     )
 
-    extractor.extract_dataset()
+    dataset = extractor.extract()
+
+    print("\n======================================")
+    print("LANDMARK EXTRACTION COMPLETED")
+    print("======================================")
+    print(f"Extracted Samples : {len(dataset)}")
+    print("======================================")
 
 
 if __name__ == "__main__":

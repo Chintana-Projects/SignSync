@@ -39,7 +39,7 @@ WLASL/
 # ----------------------------
 # Generated Files
 # ----------------------------
-generated/
+generated/landmarks.csv
 captures/
 
 # ----------------------------
