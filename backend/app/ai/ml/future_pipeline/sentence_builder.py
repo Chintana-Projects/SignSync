@@ -7,7 +7,7 @@ Builds words and sentences from
 continuous gesture predictions.
 
 Current Status:
-Architecture Placeholder
+Prototype for future live recognition.
 """
 
 
@@ -20,21 +20,30 @@ class SentenceBuilder:
 
         self.words = []
 
+        self.last_prediction = None
+
     # ---------------------------------------------------------
     # Add Prediction
     # ---------------------------------------------------------
 
     def add_prediction(self, prediction):
         """
-        Store a predicted gesture or word.
+        Store a predicted gesture.
+
+        Consecutive duplicate predictions
+        are ignored to reduce repetition.
 
         Args:
             prediction:
-                Gesture/word predicted by
-                the future sequence model.
+                Gesture or word predicted
+                by the future sequence model.
         """
 
-        self.words.append(prediction)
+        if prediction != self.last_prediction:
+
+            self.words.append(prediction)
+
+            self.last_prediction = prediction
 
     # ---------------------------------------------------------
     # Get Sentence
@@ -58,6 +67,8 @@ class SentenceBuilder:
 
         self.words.clear()
 
+        self.last_prediction = None
+
     # ---------------------------------------------------------
     # Number of Words
     # ---------------------------------------------------------
@@ -68,3 +79,14 @@ class SentenceBuilder:
         """
 
         return len(self.words)
+
+    # ---------------------------------------------------------
+    # Get Words
+    # ---------------------------------------------------------
+
+    def get_words(self):
+        """
+        Return all stored predictions.
+        """
+
+        return self.words

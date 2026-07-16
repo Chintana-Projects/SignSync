@@ -28,9 +28,15 @@ Temporal Buffer
       ▼
 Sequence Generator
       │
+      ├──────────────► Current Pipeline
+      │                 Random Forest
+      │                      │
+      │                      ▼
+      │              Static Gesture Prediction
+      │
       ▼
-Sequence Model
-(LSTM / GRU / Transformer)
+Future Pipeline
+LSTM / GRU / Transformer
       │
       ▼
 Gesture / Word Prediction
@@ -162,6 +168,43 @@ Sequence of landmark vectors.
 Prepares temporal data for sequence models.
 
 ---
+---
+
+## Sequence Representation
+
+After landmark extraction, each frame is converted into a
+63-dimensional feature vector.
+
+Example:
+
+```text
+Frame 1  → 63 Features
+
+Frame 2  → 63 Features
+
+Frame 3  → 63 Features
+
+...
+
+Frame 20 → 63 Features
+
+        ↓
+
+Sequence Tensor
+
+Shape = (20 × 63)
+```
+
+### Why Needed
+
+Deep learning models such as **LSTM**, **GRU**, and **Transformer**
+do not process a single frame at a time. Instead, they analyze a
+sequence of consecutive frames to understand how hand gestures
+change over time.
+
+The generated **Sequence Tensor (20 × 63)** becomes the input to the
+future sequence model, enabling continuous sign language recognition
+instead of recognizing only static gestures.
 
 ## 7. Sequence Model
 
