@@ -70,3 +70,6 @@ __pycache__/
 
 # Virtual environment
 venv/
+generated/train.csv
+generated/validation.csv
+generated/test.csv
