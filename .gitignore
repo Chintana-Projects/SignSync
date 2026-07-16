@@ -58,3 +58,15 @@ captures/
 build/
 dist/
 *.egg-info/
+# Machine Learning files
+*.pkl
+
+# Generated datasets
+generated/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
