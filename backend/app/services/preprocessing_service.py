@@ -11,8 +11,8 @@ Responsibilities
 4. Return preprocessing summary.
 """
 
-from app.ai.dataset.dataset_builder import DatasetBuilder
-from app.ai.dataset.validator import DatasetValidator
+from backend.app.ai.ml.preprocessing.dataset_builder import DatasetBuilder
+from backend.app.ai.ml.preprocessing.validator import DatasetValidator
 
 
 class PreprocessingService:

@@ -1,0 +1,29 @@
+{
+    "top_confusions": [
+        {
+            "actual": "N",
+            "predicted": "M",
+            "count": 14
+        },
+        {
+            "actual": "M",
+            "predicted": "N",
+            "count": 7
+        },
+        {
+            "actual": "O",
+            "predicted": "C",
+            "count": 7
+        },
+        {
+            "actual": "V",
+            "predicted": "U",
+            "count": 7
+        },
+        {
+            "actual": "S",
+            "predicted": "E",
+            "count": 4
+        }
+    ]
+}

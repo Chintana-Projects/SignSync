@@ -1,0 +1,15 @@
+{
+    "training_time_seconds": null,
+
+    "accuracy": null,
+
+    "precision": null,
+
+    "recall": null,
+
+    "f1_score": null,
+
+    "model_size_mb": null,
+
+    "notes": "Pending training"
+}

@@ -1,46 +1,39 @@
 """
 gesture_service.py
 
-Gesture prediction service.
+Service layer for SignSync AI Engine.
 
-Responsibilities:
-- Perform gesture prediction
-- Return prediction results
-- Later integrate the trained AI model
+Responsibilities
+----------------
+1. Initialize the AI Engine.
+2. Accept image frames.
+3. Return structured prediction results.
 """
 
-import time
-
-from app.schemas.prediction import PredictionResponse
+from app.ai.engine.sign_engine import (
+    SignLanguageEngine
+)
 
 
 class GestureService:
     """
-    Service responsible for gesture prediction.
+    Service wrapper around the AI Engine.
     """
 
-    def predict(self) -> PredictionResponse:
+    def __init__(self):
+
+        self.engine = SignLanguageEngine()
+
+    def predict(self, image):
         """
-        Dummy prediction.
+        Predict gesture from an image.
+
+        Args:
+            image:
+                OpenCV image/frame.
 
         Returns:
-            PredictionResponse
+            PredictionResult
         """
 
-        start_time = time.time()
-
-        # ----------------------------------------
-        # Placeholder prediction
-        # Replace with AI model in Week 3
-        # ----------------------------------------
-
-        prediction = "A"
-        confidence = 0.99
-
-        processing_time = time.time() - start_time
-
-        return PredictionResponse(
-            prediction=prediction,
-            confidence=confidence,
-            processing_time=round(processing_time, 6)
-        )
+        return self.engine.predict(image)

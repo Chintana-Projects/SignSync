@@ -1,0 +1,20 @@
+{
+    "experiment_id": "experiment_001",
+
+    "date": "2026-07-15",
+
+    "engineer": "Chintana B",
+
+    "dataset_version": "normalized_landmarks_v1",
+
+    "feature_version": "63_landmarks_wrist_relative",
+
+    "model": "Random Forest",
+
+    "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "random_state": 42
+    }
+}

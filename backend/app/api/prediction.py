@@ -1,32 +1,44 @@
 """
 prediction.py
 
-Prediction API.
-
-Responsibilities:
-- Expose gesture prediction endpoint
-- Delegate prediction to GestureService
+FastAPI endpoint for SignSync AI Engine.
 """
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
-from app.schemas.prediction import PredictionResponse
-from app.services.gesture_service import GestureService
+from app.services.gesture_service import (
+    GestureService
+)
 
 router = APIRouter()
 
 gesture_service = GestureService()
 
 
-@router.post(
-    "/predict",
-    response_model=PredictionResponse
-)
+@router.post("/predict")
 def predict():
     """
-    Predict a hand gesture.
+    Prediction endpoint.
 
-    Returns:
-        PredictionResponse
+    NOTE:
+    Image upload and OpenCV decoding
+    will be added later.
     """
-    return gesture_service.predict()
+
+    try:
+
+        # Placeholder image
+        image = None
+
+        result = gesture_service.predict(
+            image
+        )
+
+        return result.to_dict()
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
